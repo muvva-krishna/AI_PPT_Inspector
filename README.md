@@ -1,4 +1,4 @@
-# pptx-slide-auditor
+# AI pptx Auditor
 
 A small tool to extract slide text and images from `.pptx` files, send each slide to Gemini for transcription and cleanup, cross-check slides for inconsistencies, and generate a report. The GUI uses `tkinter` to pick a PPTX file. Output files (`extracted_slides.json` and `reports.txt`) are saved in the same folder as the selected PPTX.
 
@@ -17,8 +17,8 @@ A small tool to extract slide text and images from `.pptx` files, send each slid
 
 ### 1. Clone the repo
 ```bash
-git clone [https://github.com/](https://github.com/)<your-username>/pptx-slide-auditor.git
-cd pptx-slide-auditor
+git clone [https://github.com]/muvva-krishna/AI_PPT_Inspector.git
+cd AI_PPT_Inspector
 ```
 
 ### 2. Create a virtual environment and install dependencies
