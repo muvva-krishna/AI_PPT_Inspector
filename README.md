@@ -61,70 +61,47 @@ set GEMINI_API_KEY="your_api_key_here"
 $env:GEMINI_API_KEY="your_api_key_here"
 ```
 
-### 4. Run the app
-```bash
-python checkdeck.py
-```
-A file-picker window will open. Choose your `.pptx` file. After processing:
 
-- `extracted_slides.json` and `reports.txt` will be saved in the same directory as your PPTX file.
-- The terminal will show how many issues were found and the full path to the `reports.txt` file.
+## File Overview
 
-###File Overview
-checkdeck.py
+### `checkdeck.py`
 Entry point that:
+- Opens tkinter file dialog
+- Extracts slides via `extractor.py`
+- Sends each slide to Gemini for processing
+- Saves JSON + runs cross-check
+- Writes `reports.txt` in PPTX folder
 
-Opens tkinter file dialog
+### `extractor.py`
+Reads `.pptx` as a ZIP archive and extracts:
+- Texts (`<a:t>` tags)
+- Tables
+- Images (base64-encoded)
+- Outputs per-slide structured data
 
-Extracts slides via extractor.py
+### `gemini_client.py`
+Communicates with Gemini API:
+- `extract_slide_with_gemini()` → cleans/transcribes a slide
+- `compare_slides_with_gemini()` → finds inconsistencies between slides
 
-Sends each slide to Gemini for processing
+### `reporter.py`
+Writes `reports.txt` listing:
+- Detected issues (with slide numbers)
+- Suggestions
 
-Saves JSON + runs cross-check
+### `utils.py`
+Helper function:
+- `image_to_base64()` for encoding images
 
-Writes reports.txt in PPTX folder
 
-extractor.py
-Reads .pptx as a ZIP archive
+## Pipeline
 
-Extracts:
+1. **Select `.pptx` file via GUI**
+2. **Extract text/images per slide**
+3. **Process each slide with Gemini**
+4. **Save results to** `extracted_slides.json`
+5. **Cross-check all slides with Gemini**
+6. **Save report to** `reports.txt` **in PPTX folder**
+7. **Print summary in terminal**
 
-Texts (<a:t> tags)
 
-Tables
-
-Images (base64-encoded)
-
-Outputs per-slide structured data
-
-gemini_client.py
-Communicates with Gemini API
-
-extract_slide_with_gemini() → cleans/transcribes a slide
-
-compare_slides_with_gemini() → finds inconsistencies between slides
-
-reporter.py
-Writes reports.txt listing:
-
-Detected issues (with slide numbers)
-
-Suggestions
-
-utils.py
-Helper function: image_to_base64() for encoding images.
-
-###Pipeline
-Select .pptx file via GUI
-
-Extract text/images per slide
-
-Process each slide with Gemini
-
-Save results to extracted_slides.json
-
-Cross-check all slides with Gemini
-
-Save report to reports.txt in PPTX folder
-
-Print summary in terminal
