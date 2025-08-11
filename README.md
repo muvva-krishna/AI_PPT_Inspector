@@ -69,3 +69,62 @@ A file-picker window will open. Choose your `.pptx` file. After processing:
 
 - `extracted_slides.json` and `reports.txt` will be saved in the same directory as your PPTX file.
 - The terminal will show how many issues were found and the full path to the `reports.txt` file.
+
+###File Overview
+checkdeck.py
+Entry point that:
+
+Opens tkinter file dialog
+
+Extracts slides via extractor.py
+
+Sends each slide to Gemini for processing
+
+Saves JSON + runs cross-check
+
+Writes reports.txt in PPTX folder
+
+extractor.py
+Reads .pptx as a ZIP archive
+
+Extracts:
+
+Texts (<a:t> tags)
+
+Tables
+
+Images (base64-encoded)
+
+Outputs per-slide structured data
+
+gemini_client.py
+Communicates with Gemini API
+
+extract_slide_with_gemini() → cleans/transcribes a slide
+
+compare_slides_with_gemini() → finds inconsistencies between slides
+
+reporter.py
+Writes reports.txt listing:
+
+Detected issues (with slide numbers)
+
+Suggestions
+
+utils.py
+Helper function: image_to_base64() for encoding images.
+
+###Pipeline
+Select .pptx file via GUI
+
+Extract text/images per slide
+
+Process each slide with Gemini
+
+Save results to extracted_slides.json
+
+Cross-check all slides with Gemini
+
+Save report to reports.txt in PPTX folder
+
+Print summary in terminal
